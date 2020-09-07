@@ -14,7 +14,7 @@ import sys
 import time
 import traceback
 
-from util.base_util import get_apps_path
+# from util.base_util import get_apps_path
 
 # NOTE: This file must be Python 2 and 3 compatible until
 # Splunk Enterprise drops support for Python2.
@@ -75,7 +75,7 @@ def exec_anaconda():
 
     sa_scipy = '%s%s' % (PSC_PATH_PREFIX, SUPPORTED_SYSTEMS[system])
 
-    sa_path = os.path.join(get_apps_path(), sa_scipy)
+    sa_path = os.path.join(r"C:\Program Files\Splunk\etc\apps", sa_scipy)
     if not os.path.isdir(sa_path):
         raise Exception('Failed to find Python for Scientific Computing Add-on (%s)' % sa_scipy)
 

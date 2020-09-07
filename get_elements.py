@@ -1,12 +1,10 @@
 #!/usr/bin/python
-# import exec_anaconda
-# exec_anaconda.exec_anaconda()
-# Put the rest of your imports below, e.g.:
-# import numpy as np
+import exec_anaconda
+exec_anaconda.exec_anaconda()
 import requests as req
 import json
 import datetime
-# import pandas as pd
+import pandas as pd
 
 
 def api_call(url="https://fantasy.premierleague.com/api/bootstrap-static/"):
@@ -19,13 +17,13 @@ def checkpoint_mark():
         f.writelines(f"Timestamp: {datetime.date.today()} - {datetime.datetime.now().strftime('%H:%M:%S')}")
 
 
-# def store_value_in_dataframe(json_data):
-#     pd.DataFrame(data=json_data["elements"]).to_csv(f"historic_Data/{datetime.date.today()}.csv")
+def store_value_in_dataframe(json_data):
+    pd.DataFrame(data=json_data["elements"]).to_csv(f"historic_Data/{datetime.date.today()}.csv", index=False)
 
 
 if __name__ == '__main__':
     # Add checkpoint for Splunk call
-    # checkpoint_mark()
+    checkpoint_mark()
 
     # Get data
     data = api_call()
@@ -33,8 +31,8 @@ if __name__ == '__main__':
     # Send data to LOG for Splunk
     print(json.dumps(data["elements"]))
 
-    # # Store value in history. Used later for trendlines
-    # store_value_in_dataframe(data)
+    # Store value in history. Used later for trendlines
+    store_value_in_dataframe(data)
 
 
 
