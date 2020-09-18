@@ -6,6 +6,7 @@ import requests as req
 import json
 import datetime
 import pandas as pd
+import os, sys
 
 
 def create_7_days_of_data():
@@ -19,8 +20,9 @@ def create_7_days_of_data():
 
 
 def create_trend_matrix():
-    pass
+    files_list = os.listdir("historic_data/")[:]
+    print(files_list)
 
 
 if __name__ == '__main__':
-    pass
+    create_trend_matrix()
