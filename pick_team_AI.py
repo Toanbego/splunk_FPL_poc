@@ -7,16 +7,17 @@ import requests as req
 
 
 def api_call(url=r"https://fantasy.premierleague.com/api/bootstrap-static/"):
+    """API call"""
     return req.get(url).json()
 
 
 def top_player_points(df):
-    """Returns the top players by points"""
+    """Returns a sorted data frame with descending on the column total_points"""
     return df.sort_values("total_points", ascending=False)
 
 
 def top_player_ROI(df):
-    """Returns the top 3 players ROI"""
+    """Returns a sorted data frame with descending on the column value_season"""
     return df.sort_values("value_season", ascending=False)
 
 
@@ -40,6 +41,7 @@ def position(position_int):
 
 
 def map_team_and_position(elements, element_type, teams):
+    """In dataframe, maps team_code to actual team name. Same with position"""
     elements['position'] = elements.element_type.map(element_type.set_index('id').singular_name)
     elements['team'] = elements.team.map(teams.set_index('id').name)
     return elements
@@ -48,6 +50,12 @@ def map_team_and_position(elements, element_type, teams):
 def get_money_team_objects(data, use_last_season, budget=1000, star_player_limit=3,
                            goalkeepers=2, defenders=5,
                            midfielders=5, forwarders=3):
+    """
+    Uses a dumb algorithm to pick most valued players. Picks 3 star players (top most valued player by points)
+    then fills in the rest with top ROI (Region Of Interest. This is players that has the highest value per million rate)
+    Budget is set to 1000 since player cost is set a factor of 10 higher than on the
+    fantasy webpage. meaning that if a player costs 5.5£ on the home page, it will cost 55 with this dataframe.
+    """
 
     if use_last_season:
         data2 = pd.read_csv("historic_data/2020-09-01.csv")
@@ -70,10 +78,9 @@ def get_money_team_objects(data, use_last_season, budget=1000, star_player_limit
     positions = {"Goalkeeper": goalkeepers, "Defender": defenders, "Midfielder": midfielders, "Forwarder": forwarders}
 
     # Select X top points players
-    i=0
+
     for _, player in top_player_points(df).iterrows():
-        print(i)
-        i+=1
+
         # Add player if condition is met
 
         if len(money_team) < star_player_limit and player["second_name"] not in injured \
@@ -106,6 +113,7 @@ def get_money_team_objects(data, use_last_season, budget=1000, star_player_limit
 
 
 def create_montioring_file(data):
+    """Currently not in use due to lack of pandas support"""
     data.to_json("test.json")
     try:
         pd.read_csv("historic_data/suggested_team.csv")
@@ -119,7 +127,6 @@ def main():
     use_last_season = True
     get_money_team_objects(data, use_last_season)
 
-    # create_montioring_file(money_team)
 
 
 main()
