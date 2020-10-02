@@ -17,8 +17,9 @@ reason for the lines:
 
 import json
 import os
-import requests as req
 
+import requests as req
+import sys
 
 
 def api_call(url=r"https://fantasy.premierleague.com/api/bootstrap-static/"):
@@ -35,15 +36,45 @@ def checkpoint_mark():
 
 def store_value_in_dataframe(json_data):
     """
-    Uses pandas to store data to a csv file under directory /historic_data/<todays_date>.csv. Currently not in use until support
+    Uses pandas to store data to a csv file under directory /historic_data/<today_date>.csv. Currently not in use until
+    support
+    for pandas is configured properly.
+    """
+
+    import pandas as pd
+    df = pd.read_csv(r"/bin/backup/historic_data/elements_data.csv")
+    df_new = pd.DataFrame(json_data["elements"])
+
+    df = df.append(df_new)
+    df.to_csv("historic_data/elements_data.csv")
+
+
+def store_value_in_new_csv(json_data):
+    """
+    Uses pandas to store data to a csv file under directory /historic_data/<today_date>.csv.
+    Currently not in use until support
     for pandas is configured properly.
     """
     import datetime
 
-    import exec_anaconda
-    exec_anaconda.exec_anaconda()
     import pandas as pd
-    pd.DataFrame(data=json_data["elements"]).to_csv(fr"C:\Program Files\Splunk\etc\apps\Fantasy_PL\bin\historic_data\{datetime.date.today()}.csv", index=False)
+    df = pd.DataFrame(json_data["elements"])
+    df.to_csv(f"historic_data/{datetime.date.today()}.csv")
+    df.to_csv(f"historic_data/elements_data11.csv")
+
+
+def store_value_in_txt(json_data):
+    """
+    Uses pandas to store data to a csv file under directory /historic_data/<today_date>.csv.
+    Currently not in use until support
+    for pandas is configured properly.
+    """
+    import datetime
+
+    import pandas as pd
+    df = pd.DataFrame(json_data["elements"])
+    df.to_csv(f"historic_data/{datetime.date.today()}.csv")
+    df.to_csv(f"historic_data/elements_data11.csv")
 
 
 def suggest_team(dt):
@@ -60,11 +91,12 @@ def suggest_team(dt):
     # 2. if file already exists, delete file and create a new one
 
     try:
-        money_team.to_csv(r"C:\Program Files\Splunk\etc\apps\Fantasy_PL\bin\historic_data\suggested_team.csv", index=False)
+        money_team.to_csv(r"C:\Program Files\Splunk\etc\apps\Fantasy_PL\bin\historic_data\suggested_team.csv",
+                          index=False)
     except Exception:
         os.remove(r"C:\Program Files\Splunk\etc\apps\Fantasy_PL\bin\historic_data\suggested_team.csv")
-        money_team.to_csv(r"C:\Program Files\Splunk\etc\apps\Fantasy_PL\bin\historic_data\suggested_team.csv", index=False)
-
+        money_team.to_csv(r"C:\Program Files\Splunk\etc\apps\Fantasy_PL\bin\historic_data\suggested_team.csv",
+                          index=False)
 
 
 if __name__ == '__main__':
@@ -76,7 +108,13 @@ if __name__ == '__main__':
     unpacked_data = json.dumps(data["elements"])
     print(r'{}'.format(unpacked_data))
 
+    # Checks if an argument is provided when running script that is enabled from running the script from a BAT file
+    run_from_interval = sys.argv
 
-
-
-
+    # Append data to monitoring file
+    try:
+        if run_from_interval[1]:
+            store_value_in_new_csv(data)
+            # store_value_in_dataframe(data)
+    except IndexError:
+        pass
