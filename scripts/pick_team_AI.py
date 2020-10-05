@@ -3,6 +3,7 @@
 # exec_anaconda.exec_anaconda()
 import pandas as pd
 import requests as req
+import datetime
 
 
 
@@ -67,7 +68,7 @@ def get_money_team_objects(data, use_last_season, budget=1000, star_player_limit
         # Create dataFrames based on data categories
         df_element_types = pd.DataFrame(data["element_types"])
         df_team = pd.DataFrame(data['teams'])
-        df = pd.DataFrame(data)
+        df = pd.DataFrame(data["elements"])
     df['value_season'] = df.value_season.astype(float)  # Convert all values to float, in case some are strings
 
     # Set up variables
@@ -109,22 +110,20 @@ def get_money_team_objects(data, use_last_season, budget=1000, star_player_limit
                                               ]])
 
     print("Total team cost: " + str(round(sum(money_team['now_cost'].values)/10, 2)) + "£")
+    save_data_to_json(money_team)
 
 
+def save_data_to_json(df):
 
-def create_montioring_file(data):
-    """Currently not in use due to lack of pandas support"""
-    data.to_json("test.json")
-    try:
-        pd.read_csv("historic_data/suggested_team.csv")
-    except Exception:
-        print(data)
-        data.to_csv("historic_data/suggested_team.csv")
+    df[["first_name", "second_name",
+        'position', "Star", "team",
+        "now_cost", "total_points",
+        'value_season']].to_csv(f"C:/Program Files/Splunk/etc/apps/Fantasy_PL/bin/data/team_suggestion/suggested_team {datetime.date.today()}.txt")
 
 
 def main():
     data = api_call()
-    use_last_season = True
+    use_last_season = False
     get_money_team_objects(data, use_last_season)
 
 

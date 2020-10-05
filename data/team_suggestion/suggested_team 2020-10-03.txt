@@ -1,0 +1,288 @@
+    Star  assists  bonus    bps  chance_of_playing_next_round  \
+188  Yes      0.0    5.0  159.0                           NaN   
+196  Yes      2.0    2.0  141.0                           NaN   
+76   Yes      1.0    5.0  126.0                           NaN   
+263   No      2.0    5.0  100.0                           NaN   
+122   No      1.0    2.0   92.0                         100.0   
+251   No      3.0    4.0   92.0                           NaN   
+51    No      0.0    3.0   69.0                           NaN   
+46    No      1.0    2.0   66.0                           NaN   
+266   No      1.0    2.0   70.0                           NaN   
+125   No      0.0    0.0   77.0                           NaN   
+32    No      0.0    2.0   64.0                           NaN   
+259   No      1.0    2.0   96.0                           NaN   
+157   No      2.0    4.0   82.0                           NaN   
+373   No      0.0    3.0   90.0                           NaN   
+249   No      1.0    1.0   70.0                           NaN   
+
+     chance_of_playing_this_round  clean_sheets      code  \
+188                           NaN           1.0  177815.0   
+196                           NaN           1.0   60025.0   
+76                            NaN           1.0  115382.0   
+263                           NaN           1.0  106617.0   
+122                         100.0           1.0   85955.0   
+251                           NaN           1.0  166477.0   
+51                            NaN           2.0  199798.0   
+46                            NaN           2.0  149484.0   
+266                           NaN           1.0  165808.0   
+125                           NaN           1.0  103192.0   
+32                            NaN           2.0   98980.0   
+259                           NaN           1.0   72222.0   
+157                           NaN           1.0   60252.0   
+373                           NaN           1.0   59735.0   
+249                           NaN           1.0  220627.0   
+
+     corners_and_indirect_freekicks_order corners_and_indirect_freekicks_text  \
+188                                   NaN                                       
+196                                   1.0                                       
+76                                    NaN                                       
+263                                   NaN                                       
+122                                   NaN                                       
+251                                   NaN                                       
+51                                    NaN                                       
+46                                    NaN                                       
+266                                   NaN                                       
+125                                   NaN                                       
+32                                    NaN                                       
+259                                   NaN                                       
+157                                   3.0                                       
+373                                   NaN                                       
+249                                   NaN                                       
+
+     cost_change_event  cost_change_event_fall  cost_change_start  \
+188                0.0                     0.0                5.0   
+196                0.0                     0.0                2.0   
+76                 0.0                     0.0                0.0   
+263                0.0                     0.0                3.0   
+122                0.0                     0.0                1.0   
+251                0.0                     0.0                2.0   
+51                 0.0                     0.0                0.0   
+46                 0.0                     0.0                0.0   
+266                0.0                     0.0                2.0   
+125                0.0                     0.0                0.0   
+32                 0.0                     0.0                1.0   
+259                0.0                     0.0                1.0   
+157                0.0                     0.0                1.0   
+373                0.0                     0.0                0.0   
+249                0.0                     0.0                2.0   
+
+     cost_change_start_fall creativity  creativity_rank  creativity_rank_type  \
+188                    -5.0       20.3            136.0                  17.0   
+196                    -2.0      140.0              1.0                   1.0   
+76                      0.0       54.3             37.0                   3.0   
+263                    -3.0       24.8            110.0                  14.0   
+122                    -1.0       24.8            109.0                  69.0   
+251                    -2.0       43.1             58.0                  12.0   
+51                      0.0        0.3            291.0                 106.0   
+46                      0.0       12.9            171.0                  44.0   
+266                    -2.0       34.4             80.0                  57.0   
+125                     0.0        0.4            287.0                 105.0   
+32                     -1.0        0.0            437.0                  41.0   
+259                    -1.0       62.0             33.0                  23.0   
+157                    -1.0       92.9             13.0                   8.0   
+373                     0.0        0.0            486.0                  48.0   
+249                    -2.0       33.5             82.0                  17.0   
+
+     direct_freekicks_order direct_freekicks_text  dreamteam_count  \
+188                     NaN                                    1.0   
+196                     NaN                                    1.0   
+76                      NaN                                    1.0   
+263                     NaN                                    0.0   
+122                     NaN                                    2.0   
+251                     NaN                                    2.0   
+51                      NaN                                    1.0   
+46                      NaN                                    2.0   
+266                     NaN                                    1.0   
+125                     NaN                                    1.0   
+32                      NaN                                    0.0   
+259                     NaN                                    0.0   
+157                     3.0                                    0.0   
+373                     NaN                                    0.0   
+249                     NaN                                    0.0   
+
+     element_type ep_next ep_this  event_points     first_name form  \
+188           4.0     8.2     9.7           6.0        Dominic  9.2   
+196           3.0     7.0     8.5          15.0          James  8.0   
+76            4.0     7.5     7.5           6.0           Neal  8.0   
+263           4.0     7.0     6.0           1.0        Patrick  7.5   
+122           3.0     6.7     6.7          13.0     Jorge Luiz  6.2   
+251           2.0     7.8     7.3           0.0        Timothy  6.8   
+51            2.0     6.0     5.5           0.0           Ezri  7.0   
+46            2.0     6.3     5.8           0.0         Tyrone  7.3   
+266           3.0     5.5     4.5           2.0  Hélder Wander  6.0   
+125           2.0     5.7     5.7          12.0           Kurt  5.2   
+32            1.0     5.3     4.8           0.0       Emiliano  6.3   
+259           3.0     5.3     4.3           2.0        Mateusz  5.8   
+157           3.0     6.5     5.5           2.0         Andros  6.0   
+373           1.0     4.3     4.8           2.0           Karl  4.8   
+249           2.0     5.2     4.7           0.0          James  4.2   
+
+     goals_conceded  goals_scored ict_index  ict_index_rank  \
+188             5.0           6.0      41.7             4.0   
+196             4.0           3.0      28.6            10.0   
+76             10.0           4.0      31.1             9.0   
+263             7.0           3.0      24.2            19.0   
+122             3.0           3.0      13.6            65.0   
+251             4.0           1.0      19.0            38.0   
+51              0.0           1.0      10.4           100.0   
+46              0.0           1.0      14.7            59.0   
+266             8.0           2.0      19.7            33.0   
+125             3.0           2.0      10.5            98.0   
+32              0.0           0.0       5.1           205.0   
+259             7.0           2.0      24.1            20.0   
+157             7.0           1.0      23.6            21.0   
+373             5.0           0.0      12.1            84.0   
+249             4.0           1.0      15.5            54.0   
+
+     ict_index_rank_type     id  in_dreamteam influence  influence_rank  \
+188                  2.0  164.0           1.0     174.2             2.0   
+196                  5.0  508.0           1.0      88.4            26.0   
+76                   5.0   68.0           1.0     128.6             8.0   
+263                  9.0  202.0           0.0     125.0            10.0   
+122                 38.0  105.0           0.0      75.2            41.0   
+251                  4.0  498.0           1.0      99.0            17.0   
+51                  29.0   46.0           1.0      70.8            55.0   
+46                   9.0   41.0           1.0      93.2            20.0   
+266                 18.0  205.0           0.0      98.4            18.0   
+125                 28.0  110.0           0.0      70.2            57.0   
+32                  13.0   12.0           1.0      51.2            92.0   
+259                 10.0  198.0           0.0     126.4             9.0   
+157                 11.0  137.0           0.0     100.8            16.0   
+373                  1.0  325.0           0.0     120.4            11.0   
+249                  8.0  239.0           0.0      86.6            28.0   
+
+     influence_rank_type  minutes news                   news_added  now_cost  \
+188                  2.0    338.0                              None      75.0   
+196                 10.0    329.0                              None      77.0   
+76                   4.0    360.0                              None      65.0   
+263                  5.0    310.0                              None      58.0   
+122                 18.0    252.0       2020-09-14T21:30:11.281378Z      51.0   
+251                  2.0    270.0                              None      57.0   
+51                  15.0    180.0                              None      45.0   
+46                   3.0    180.0                              None      50.0   
+266                  7.0    335.0                              None      57.0   
+125                 16.0    270.0                              None      50.0   
+32                  12.0    180.0                              None      46.0   
+259                  4.0    336.0                              None      56.0   
+157                  6.0    360.0                              None      61.0   
+373                  1.0    344.0                              None      50.0   
+249                  7.0    270.0                              None      47.0   
+
+     own_goals  penalties_missed  penalties_order  penalties_saved  \
+188        0.0               0.0              NaN              0.0   
+196        0.0               0.0              NaN              0.0   
+76         0.0               0.0              1.0              0.0   
+263        0.0               0.0              2.0              0.0   
+122        0.0               1.0              1.0              0.0   
+251        0.0               0.0              NaN              0.0   
+51         0.0               0.0              NaN              0.0   
+46         0.0               0.0              NaN              0.0   
+266        0.0               0.0              NaN              0.0   
+125        0.0               0.0              NaN              0.0   
+32         0.0               0.0              NaN              1.0   
+259        0.0               0.0              1.0              0.0   
+157        0.0               0.0              NaN              0.0   
+373        0.0               0.0              NaN              0.0   
+249        0.0               0.0              NaN              0.0   
+
+    penalties_text       photo points_per_game  red_cards  saves  \
+188                 177815.jpg             9.2        0.0    0.0   
+196                  60025.jpg             8.0        0.0    0.0   
+76                  115382.jpg             8.0        0.0    0.0   
+263                 106617.jpg             7.5        0.0    0.0   
+122                  85955.jpg             8.3        0.0    0.0   
+251                 166477.jpg             9.0        0.0    0.0   
+51                  199798.jpg            10.5        0.0    0.0   
+46                  149484.jpg            11.0        0.0    0.0   
+266                 165808.jpg             6.0        0.0    0.0   
+125                 103192.jpg             7.0        0.0    0.0   
+32                   98980.jpg             9.5        0.0    3.0   
+259                  72222.jpg             5.8        0.0    0.0   
+157                  60252.jpg             6.0        0.0    0.0   
+373                  59735.jpg             4.8        0.0   20.0   
+249                 220627.jpg             5.7        0.0    0.0   
+
+                  second_name selected_by_percent  special squad_number  \
+188             Calvert-Lewin                42.9      0.0         None   
+196                 Rodríguez                31.8      0.0         None   
+76                     Maupay                 4.2      0.0         None   
+263                   Bamford                25.2      0.0         None   
+122              Frello Filho                 6.6      0.0         None   
+251                  Castagne                17.0      0.0         None   
+51                Konsa Ngoyo                 4.1      0.0         None   
+46                      Mings                 3.9      0.0         None   
+266  Sousa de Azevedo e Costa                10.7      0.0         None   
+125                     Zouma                 2.0      0.0         None   
+32                   Martínez                14.0      0.0         None   
+259                     Klich                 8.3      0.0         None   
+157                  Townsend                 3.8      0.0         None   
+373                    Darlow                 1.2      0.0         None   
+249                    Justin                23.3      0.0         None   
+
+    status            team  team_code threat  threat_rank  threat_rank_type  \
+188      a         Everton       11.0  223.0          2.0               1.0   
+196      a         Everton       11.0   57.0         43.0              20.0   
+76       a        Brighton       36.0  130.0         11.0               8.0   
+263      a           Leeds        2.0   92.0         22.0              14.0   
+122      a         Chelsea        8.0   36.0         87.0              42.0   
+251      a       Leicester       13.0   47.0         57.0               5.0   
+51       a     Aston Villa        7.0   33.0         96.0              20.0   
+46       a     Aston Villa        7.0   40.0         77.0              10.0   
+266      a           Leeds        2.0   63.0         37.0              17.0   
+125      a         Chelsea        8.0   34.0         94.0              18.0   
+32       a     Aston Villa        7.0    0.0        407.0              40.0   
+259      a           Leeds        2.0   52.0         47.0              21.0   
+157      a  Crystal Palace       31.0   42.0         73.0              35.0   
+373      a       Newcastle        4.0    0.0        470.0              47.0   
+249      a       Leicester       13.0   35.0         89.0              16.0   
+
+     total_points  transfers_in  transfers_in_event  transfers_out  \
+188          37.0     2447968.0             98754.0       212174.0   
+196          32.0     1735093.0            109921.0       324651.0   
+76           32.0      237328.0             21317.0        91148.0   
+263          30.0     1538461.0             26147.0       304472.0   
+122          25.0      446164.0             47393.0       219875.0   
+251          27.0     1032886.0             25047.0       159819.0   
+51           21.0      273292.0             11312.0        52571.0   
+46           22.0      164347.0             11222.0        39631.0   
+266          24.0      795457.0             11987.0       178959.0   
+125          21.0       85569.0             11365.0        57379.0   
+32           19.0      686038.0             18767.0       164257.0   
+259          23.0      592533.0              6971.0       177164.0   
+157          24.0      259117.0              5830.0        78337.0   
+373          19.0       68786.0              1670.0        29737.0   
+249          17.0      988360.0             11119.0       244518.0   
+
+     transfers_out_event value_form  value_season       web_name  \
+188               2958.0        1.2           4.9  Calvert-Lewin   
+196               4572.0        1.0           4.2      Rodríguez   
+76                2385.0        1.2           4.9         Maupay   
+263               7698.0        1.3           5.2        Bamford   
+122               2222.0        1.2           4.9       Jorginho   
+251               2696.0        1.2           4.7       Castagne   
+51                1589.0        1.6           4.7          Konsa   
+46                1247.0        1.5           4.4          Mings   
+266               7078.0        1.1           4.2          Costa   
+125                781.0        1.0           4.2          Zouma   
+32                1705.0        1.4           4.1       Martínez   
+259               5331.0        1.0           4.1          Klich   
+157               4612.0        1.0           3.9       Townsend   
+373                662.0        1.0           3.8         Darlow   
+249               5350.0        0.9           3.6         Justin   
+
+     yellow_cards    position  
+188           0.0     Forward  
+196           0.0  Midfielder  
+76            0.0     Forward  
+263           1.0     Forward  
+122           0.0  Midfielder  
+251           0.0    Defender  
+51            0.0    Defender  
+46            1.0    Defender  
+266           0.0  Midfielder  
+125           0.0    Defender  
+32            0.0  Goalkeeper  
+259           1.0  Midfielder  
+157           0.0  Midfielder  
+373           0.0  Goalkeeper  
+249           1.0    Defender  

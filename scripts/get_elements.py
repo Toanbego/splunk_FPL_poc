@@ -20,6 +20,7 @@ import os
 
 import requests as req
 import sys
+import datetime
 
 
 def api_call(url=r"https://fantasy.premierleague.com/api/bootstrap-static/"):
@@ -30,7 +31,7 @@ def api_call(url=r"https://fantasy.premierleague.com/api/bootstrap-static/"):
 def checkpoint_mark():
     """Used to checkpoint that data was written this day. Mostly used for debugging. Currently not in use"""
     import datetime
-    with open(r"checkpoint\API_call_timestamp.txt", "w") as f:
+    with open(r"../checkpoint/API_call_timestamp.txt", "w") as f:
         f.writelines(f"Timestamp: {datetime.date.today()} - {datetime.datetime.now().strftime('%H:%M:%S')}")
 
 
@@ -94,27 +95,24 @@ def suggest_team(dt):
         money_team.to_csv(r"C:\Program Files\Splunk\etc\apps\Fantasy_PL\bin\historic_data\suggested_team.csv",
                           index=False)
     except Exception:
-        os.remove(r"C:\Program Files\Splunk\etc\apps\Fantasy_PL\bin\historic_data\suggested_team.csv")
+        os.remove(r"/historic_data/suggested_team.csv")
         money_team.to_csv(r"C:\Program Files\Splunk\etc\apps\Fantasy_PL\bin\historic_data\suggested_team.csv",
                           index=False)
+
+
+def save_data_to_json(json_data):
+    unpacked_data = json.dumps(json_data["elements"])
+
+    f = open(f"C:/Program Files/Splunk/etc/apps/Fantasy_PL/bin/data/elements/{datetime.date.today()}.txt", "w")
+    f.write(f"{unpacked_data}")
+    f.close()
 
 
 if __name__ == '__main__':
 
     # Get data
     data = api_call()
+    print(data["elements"])
+    # Write data to file
+    save_data_to_json(data)
 
-    # Send data to LOG for Splunk
-    unpacked_data = json.dumps(data["elements"])
-    print(r'{}'.format(unpacked_data))
-
-    # Checks if an argument is provided when running script that is enabled from running the script from a BAT file
-    run_from_interval = sys.argv
-
-    # Append data to monitoring file
-    try:
-        if run_from_interval[1]:
-            store_value_in_new_csv(data)
-            # store_value_in_dataframe(data)
-    except IndexError:
-        pass

@@ -19,15 +19,17 @@ async def my_team(user_id):
         await fpl.login()
         user = await fpl.get_user(user_id)
         team = await user.get_team()
-    print(team)
+    await print(team)
 
 def api_call(url=r"https://fantasy.premierleague.com/api/bootstrap-static/"):
     return req.get(url).json()
 
 
-if __name__ == '__main__':
+async def main():
     """
     Main function used for testing
     """
     data = api_call()
-    my_team(3631718)
+    await my_team(3631718)
+
+main()
