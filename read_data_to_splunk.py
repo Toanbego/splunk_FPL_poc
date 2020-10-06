@@ -7,6 +7,7 @@ def read_elements_data():
     f = open(f"{path}/{file}", 'r')
     print(f.read())
 
+
 if __name__ == '__main__':
     read_elements_data()
 

@@ -110,10 +110,10 @@ def get_money_team_objects(data, use_last_season, budget=1000, star_player_limit
                                               ]])
 
     print("Total team cost: " + str(round(sum(money_team['now_cost'].values)/10, 2)) + "£")
-    save_data_to_json(money_team)
+    save_data_to_csv(money_team)
 
 
-def save_data_to_json(df):
+def save_data_to_csv(df):
 
     df[["first_name", "second_name",
         'position', "Star", "team",
