@@ -102,10 +102,20 @@ def suggest_team(dt):
 
 def save_data_to_json(json_data):
     unpacked_data = json.dumps(json_data["elements"])
-
-    f = open(f"C:/Program Files/Splunk/etc/apps/Fantasy_PL/bin/data/elements/{datetime.date.today()}.txt", "w")
-    f.write(f"{unpacked_data}")
-    f.close()
+    try:
+        f = open(f"C:/Program Files/Splunk/etc/apps/Fantasy_PL/bin/data/elements/{datetime.date.today()}.txt", "w")
+        f.write(f"{unpacked_data}")
+        f.close()
+    except FileNotFoundError:
+        print("file not found - splunk")
+        pass
+    try:
+        f = open(f"../elements/{datetime.date.today()}.txt", "w")
+        f.write(f"{unpacked_data}")
+        f.close()
+    except FileNotFoundError:
+        print("file not found - local")
+        pass
 
 
 if __name__ == '__main__':
