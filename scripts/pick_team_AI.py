@@ -114,7 +114,16 @@ def get_money_team_objects(data, use_last_season, budget=1000, star_player_limit
 
 
 def save_data_to_csv(df):
-
+    
+    try:
+        df[["first_name", "second_name",
+            'position', "Star", "team",
+            "now_cost", "total_points",
+            'value_season']].to_csv(f"C:/Program Files/Splunk/etc/apps/Fantasy_PL/bin"
+                                    f"/data/team_suggestion/suggested_team {datetime.date.today()}.txt")
+    except FileNotFoundError:
+        print("file not found - splunk")
+        pass
 
     try:
         df[["first_name", "second_name",
