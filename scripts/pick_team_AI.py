@@ -39,7 +39,7 @@ def position(position_int):
     elif position_int == 3:
         return "Midfielder"
     elif position_int == 4:
-        return "Forwarder"
+        return "Forward"
 
 
 def map_team_and_position(elements, element_type, teams):
@@ -65,13 +65,14 @@ class TeamSelectorAI:
         self.star_player_limit = star_player_limit
         self.money_team = pd.DataFrame()
         self.positions = {"Goalkeeper": goalkeepers, "Defender": defenders,
-                          "Midfielder": midfielders, "Forwarder": forwarders}
+                          "Midfielder": midfielders, "Forward": forwarders}
         self.df, self.df_team, self.df_element_types = self.create_dataframe(use_last_season)
+        self.df = map_team_and_position(self.df, self.df_element_types, self.df_team)
         self.injured = player_by_status(self.df)
 
     def create_dataframe(self, use_last_season):
         """
-        Create dataframe from data, either with last season or this seasion
+        Create dataframe from data, either with last season or this season
         """
         if use_last_season:
             # Create dataFrames based on data categories
@@ -88,8 +89,6 @@ class TeamSelectorAI:
         df['value_season'] = df.value_season.astype(float)  # Convert all values to float, in case some are strings
 
         return df, df_team, df_element_types
-
-
 
     def simple_AI(self):
         """
@@ -159,13 +158,10 @@ class TeamSelectorAI:
             print("file not found - local")
             pass
 
+if __name__ == '__main__':
 
-def main():
     data = api_call()
     use_last_season = False
     team_selector_ai = TeamSelectorAI(data, use_last_season)
     team_selector_ai.simple_AI()
     team_selector_ai.print_team()
-
-
-main()
