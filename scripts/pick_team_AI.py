@@ -4,8 +4,17 @@
 import pandas as pd
 import requests as req
 import datetime
-from pulp import *
 import numpy as np
+import seaborn as sns
+import re
+import ast
+import keras
+# import keras_preprocessing
+
+sns.set_style('whitegrid')
+pd.options.mode.chained_assignment = None
+pd.set_option('display.max_columns', 100)
+
 
 def api_call(url=r"https://fantasy.premierleague.com/api/bootstrap-static/"):
     """API call"""
@@ -90,44 +99,48 @@ class TeamSelectorAI:
 
         return df, df_team, df_element_types
 
-    def knapsack_01(self):
-        data = self.df
+    def get_team_fixture(self, historic_data_path, teams_df, fixtures_df, players_season, gw=1):
+        """
+        Returns a dataframe containing the fixtures, players and scores for a given game week.
+        """
+        fixtures_df = fixtures_df.loc[fixtures_df["event"] == gw]
+        gw = pd.read_csv(historic_data_path + r"\gws\gw"+str(gw)+".csv")
+        gw['first_name'], gw['second_name'] = gw.element.map(players_season.set_index('id').first_name), gw.element.map(players_season.set_index('id').second_name)
+        gw = gw.loc[gw["minutes"] > 0]
+        gw['team'] = gw.element.map(players_season.set_index('id').team)
+        gw['opponent_team'] = gw.opponent_team.map(teams_df.set_index('id').name)
+        stats = ast.literal_eval(re.search('({.+})', fixtures_df.stats.values[0]).group(0))[-1]
+        teams = gw.team.unique()
+        match_setups = {}
+        for i, team in enumerate(teams):
+            team1 = gw.loc[gw["team"] == team]
+            opponent_team = team1["opponent_team"].unique()[0]
+            team2 = gw.loc[gw["team"] == opponent_team]
+            teams = np.delete(teams, np.argwhere(teams == opponent_team))
+            match_setups[i] = [team1, team2]
+
+        return match_setups, stats
+
+    def create_nn_input(self, season="2019-20", gw=1):
+        """
+        Creates input for neural network
+        """
+        # Get Data frames for the given season
+        historic_data_path = r"C:\Users\torstein.gombos\Desktop\FPL\historic_data\Fantasy-Premier-League\data\\" + season
+        teams_df = pd.read_csv(historic_data_path + r"\teams.csv")
+
+        fixtures_df = pd.read_csv(historic_data_path + r"\fixtures.csv")
+        fixtures_df['team_h'] = fixtures_df.team_h.map(teams_df.set_index('id').name)
+        fixtures_df['team_a'] = fixtures_df.team_a.map(teams_df.set_index('id').name)
+
+        players_season = pd.read_csv(historic_data_path + r"\players_raw.csv")
+        players_season['team'] = players_season.team.map(teams_df.set_index('id').name)
+
+        # Extract game setup dict
+        match_setups, stats = self.get_team_fixture(historic_data_path, teams_df, fixtures_df, players_season, gw)
+        return match_setups, stats
 
 
-        player = [str(i) for i in range(len(self.df["second_name"]))]
-        point = {str(i): self.df["total_points"][i] for i in range(len(self.df["total_points"]))}
-
-        cost = {str(i): self.df['now_cost'][i] for i in range(len(self.df["now_cost"]))}
-        gk = {str(i): 1 if self.df['position'][i] == 'Goalkeeper' else 0 for i in range(len(self.df["total_points"]))}
-        defe = {str(i): 1 if self.df['position'][i] == 'Defender' else 0 for i in range(len(self.df["total_points"]))}
-        mid = {str(i): 1 if self.df['position'][i] == 'Midfielder' else 0 for i in range(len(self.df["total_points"]))}
-        stri = {str(i): 1 if self.df['position'][i] == 'Forward' else 0 for i in range(len(self.df["total_points"]))}
-
-
-        # gk = list(np.array(self.df["position"].values == "Goalkeeper").astype(int))
-        # defe = list(np.array(self.df["position"].values == "Defender").astype(int))
-        # mid = list(np.array(self.df["position"].values == "Midfielder").astype(int))
-        # stri = list(np.array(self.df["position"].values == "Forward").astype(int))
-
-        xi = {str(i): 1 for i in range(data.shape[0])}
-
-        prob = LpProblem("Fantasy_Football", LpMaximize)
-        player_vars = LpVariable.dicts("Players", player, 0, 1, LpBinary)
-
-        # objective function
-
-        prob += lpSum([point[i] * player_vars[i] for i in player]), "Total Cost"
-
-        # constraint
-        prob += lpSum([player_vars[i] for i in player]) == 11, "Total 11 Players"
-        prob += lpSum([cost[i] * player_vars[i] for i in player]) <= 100.0, "Total Cost"
-        prob += lpSum([gk[i] * player_vars[i] for i in player]) == 1, "Only 1 Goalkeeper"
-        prob += lpSum([defe[i] * player_vars[i] for i in player]) <= 4, "Less than 4 Defender"
-        prob += lpSum([mid[i] * player_vars[i] for i in player]) <= 5, "Less than 5 Midfielder"
-        prob += lpSum([stri[i] * player_vars[i] for i in player]) <= 3, "Less than 3 Forward"
-
-        # solve
-        status = prob.solve()
 
 
 
@@ -206,6 +219,7 @@ if __name__ == '__main__':
     data = api_call()
     use_last_season = False
     team_selector_ai = TeamSelectorAI(data, use_last_season)
-    team_selector_ai.knapsack_01()
+    # team_selector_ai.knapsack_01()
     # team_selector_ai.simple_AI()
     # team_selector_ai.print_team()
+    team_selector_ai.create_nn_input()

@@ -2,7 +2,7 @@ import os
 
 
 def read_team_suggestion_data():
-    path = r'C:\Program Files\Splunk\etc\apps\Fantasy_PL\bin\data\team_suggestion'
+    path = r'C:\Program Files\Splunk\etc\apps\FPL\bin\data\team_suggestion'
     file = os.listdir(path)[-1]
     f = open(f"{path}/{file}", 'r')
     # print(file, path)
