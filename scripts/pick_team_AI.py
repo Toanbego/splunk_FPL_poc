@@ -9,6 +9,7 @@ import seaborn as sns
 import re
 import ast
 import keras
+import os
 # import keras_preprocessing
 
 sns.set_style('whitegrid')
@@ -68,6 +69,7 @@ class TeamSelectorAI:
     def __init__(self, data, use_last_season, budget=1000, star_player_limit=3,
                  goalkeepers=2, defenders=5,
                  midfielders=5, forwarders=3):
+        self.data_path = r"C:\Users\torstein.gombos\Desktop\FPL\historic_data\Fantasy-Premier-League\data\\"
         self.data = data
         self.use_last_season = use_last_season
         self.budget = budget
@@ -78,6 +80,52 @@ class TeamSelectorAI:
         self.df, self.df_team, self.df_element_types = self.create_dataframe(use_last_season)
         self.df = map_team_and_position(self.df, self.df_element_types, self.df_team)
         self.injured = player_by_status(self.df)
+        self.seasons = os.listdir(self.data_path)
+
+        # ML related attributes
+        self.batch_size = 16
+        self.network = self.model_fcn
+
+
+
+    def train(self):
+        keras.Model.fit()
+
+    def model_fcn(self):
+        """
+        Creates a Fully Connected neural network
+        Input shape is 1x144
+        Returns the expected reward for a set of actions.
+        :return:
+        """
+
+        model = keras.models.Sequential()
+
+        model.add(keras.layers.Dense(4096, activation='relu',
+                                     batch_size=self.batch_size,
+                                     ))
+
+        model.add(keras.layers.Dropout(0.2))
+        model.add(keras.layers.Dense(4096, activation='relu'
+                                     ))
+        model.add(keras.layers.Dropout(0.2))
+
+        model.add(keras.layers.Dense(2096, activation='relu'
+                                     ))
+        model.add(keras.layers.Dropout(0.2))
+
+        model.add(keras.layers.Dense(512, activation='relu'
+                                     ))
+        model.add(keras.layers.Dropout(0.2))
+
+        model.add(keras.layers.Dense(12, activation='softmax'))
+
+        model.compile(loss=keras.losses.categorical_crossentropy,
+
+                      optimizer=keras.optimizers.adadelta(),
+                      metrics=['accuracy'])
+
+        return model
 
     def create_dataframe(self, use_last_season):
         """
@@ -99,7 +147,8 @@ class TeamSelectorAI:
 
         return df, df_team, df_element_types
 
-    def get_team_fixture(self, historic_data_path, teams_df, fixtures_df, players_season, gw=1):
+    @staticmethod
+    def get_team_fixture(historic_data_path, teams_df, fixtures_df, players_season, gw=1):
         """
         Returns a dataframe containing the fixtures, players and scores for a given game week.
         """
@@ -121,12 +170,12 @@ class TeamSelectorAI:
 
         return match_setups, stats
 
-    def create_nn_input(self, season="2019-20", gw=1):
+    def get_season_data(self, season="2019-20", gw=1):
         """
         Creates input for neural network
         """
         # Get Data frames for the given season
-        historic_data_path = r"C:\Users\torstein.gombos\Desktop\FPL\historic_data\Fantasy-Premier-League\data\\" + season
+        historic_data_path = self.data_path + season
         teams_df = pd.read_csv(historic_data_path + r"\teams.csv")
 
         fixtures_df = pd.read_csv(historic_data_path + r"\fixtures.csv")
@@ -137,10 +186,17 @@ class TeamSelectorAI:
         players_season['team'] = players_season.team.map(teams_df.set_index('id').name)
 
         # Extract game setup dict
-        match_setups, stats = self.get_team_fixture(historic_data_path, teams_df, fixtures_df, players_season, gw)
-        return match_setups, stats
+        gw_setups, stats = self.get_team_fixture(historic_data_path, teams_df, fixtures_df, players_season, gw)
+        return gw_setups, stats
 
 
+
+    def create_dataset(self):
+        """
+        Creates dataset for training. 1 batch is one game week.
+        Current setting: Total dataset size is number of game weeks for a given season.
+        """
+        batches = len(os.listdir(self.data_path + self.seasons[-2] +"/gws"))
 
 
 
@@ -222,4 +278,4 @@ if __name__ == '__main__':
     # team_selector_ai.knapsack_01()
     # team_selector_ai.simple_AI()
     # team_selector_ai.print_team()
-    team_selector_ai.create_nn_input()
+    team_selector_ai.get_season_data()

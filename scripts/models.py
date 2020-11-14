@@ -4,6 +4,7 @@ from keras.layers import Conv2D, MaxPool2D, Flatten, BatchNormalization
 from keras.layers import Dropout, Dense, LeakyReLU
 from keras.models import Sequential
 from keras.regularizers import l1, l2
+import keras
 
 
 def urban_sound_net(input_shape, num_classes, optimizer):
@@ -340,6 +341,42 @@ def d_cnn(input_shape, num_classes, optimizer):
 
     return model
 
+
+def model_fcn(self):
+    """
+    Creates a Fully Connected neural network
+    Input shape is 1x144
+    Returns the expected reward for a set of actions.
+    :return:
+    """
+
+    model = keras.models.Sequential()
+
+    model.add(keras.layers.Dense(4096, activation='relu',
+                                 batch_size=self.batch_size,
+                                 ))
+
+    model.add(keras.layers.Dropout(0.2))
+    model.add(keras.layers.Dense(4096, activation='relu'
+                                 ))
+    model.add(keras.layers.Dropout(0.2))
+
+    model.add(keras.layers.Dense(2096, activation='relu'
+                                 ))
+    model.add(keras.layers.Dropout(0.2))
+
+    model.add(keras.layers.Dense(512, activation='relu'
+                                 ))
+    model.add(keras.layers.Dropout(0.2))
+
+    model.add(keras.layers.Dense(12, activation='softmax'))
+
+    model.compile(loss=keras.losses.categorical_crossentropy,
+
+                  optimizer=keras.optimizers.adadelta(),
+                  metrics=['accuracy'])
+
+    return model
 
 def fetch_network(network_name, input_shape, num_classes, optimizer):
     """
