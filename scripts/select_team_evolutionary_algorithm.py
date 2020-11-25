@@ -4,7 +4,13 @@ import pandas as pd
 import copy
 import random
 from tqdm import tqdm
+import pygad as ga
+ga.GA.uniform_crossover()
+ga.GA.single_point_crossover()
+ga.GA.two_points_crossover()
 
+# TODO: Possible solution to offspring selection.
+#  Each parent is given a checklist on possible swaps based on the budged limitation
 
 def get_total_team_score(individual, metric="total_points"):
     return individual[metric].sum()

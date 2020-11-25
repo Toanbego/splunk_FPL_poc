@@ -10,6 +10,25 @@ import ast
 from tqdm import tqdm
 import keras
 import os
+import sklearn.model_selection
+
+def fix_teams_id_list(seasons):
+
+    path = "C:/Users/torstein.gombos/Desktop/FPL/historic_data/Fantasy-Premier-League/data/"
+    for season in seasons:
+        file = open(path + season + "/teams.csv", "r")
+        new_file = open(path + season + "/teams.csv", "w")
+        formatted_text = "name,id"
+        new_file.writelines(formatted_text)
+        for i, line in enumerate(file.readlines()):
+            team_name = line.split("\t")[0]
+            formatted_text = f"\n{team_name},{i}"
+            new_file.writelines(formatted_text)
+        new_file.close()
+        file.close()
+
+
+
 
 
 sns.set_style('whitegrid')
@@ -94,51 +113,6 @@ class TeamSelectorAI:
         self.injured = player_by_status(self.df)
         self.seasons = os.listdir(self.data_path)
 
-        # ML related attributes
-        self.batch_size = 16
-        self.network = self.model_fcn
-
-
-
-    def train(self):
-        keras.Model.fit()
-
-    def model_fcn(self):
-        """
-        Creates a Fully Connected neural network
-        Input shape is 1x144
-        Returns the expected reward for a set of actions.
-        :return:
-        """
-
-        model = keras.models.Sequential()
-
-        model.add(keras.layers.Dense(4096, activation='relu',
-                                     batch_size=self.batch_size,
-                                     ))
-
-        model.add(keras.layers.Dropout(0.2))
-        model.add(keras.layers.Dense(4096, activation='relu'
-                                     ))
-        model.add(keras.layers.Dropout(0.2))
-
-        model.add(keras.layers.Dense(2096, activation='relu'
-                                     ))
-        model.add(keras.layers.Dropout(0.2))
-
-        model.add(keras.layers.Dense(512, activation='relu'
-                                     ))
-        model.add(keras.layers.Dropout(0.2))
-
-        model.add(keras.layers.Dense(12, activation='softmax'))
-
-        model.compile(loss=keras.losses.categorical_crossentropy,
-
-                      optimizer=keras.optimizers.adadelta(),
-                      metrics=['accuracy'])
-
-        return model
-
     def create_dataframe(self, use_last_season):
         """
         Create dataframe from data, either with last season or this season
@@ -158,127 +132,6 @@ class TeamSelectorAI:
         df['value_season'] = df.value_season.astype(float)  # Convert all values to float, in case some are strings
 
         return df, df_team, df_element_types
-
-    @staticmethod
-    def get_team_fixture(historic_data_path, teams_df, fixtures_df, players_season, gw=1):
-        """
-        Returns a dataframe containing the fixtures, players and scores for a given game week.
-        """
-        fixtures_df = fixtures_df.loc[fixtures_df["event"] == gw]
-        gw = pd.read_csv(historic_data_path + r"\gws\gw"+str(gw)+".csv")
-        gw['first_name'], gw['second_name'] = gw.element.map(players_season.set_index('id').first_name), gw.element.map(players_season.set_index('id').second_name)
-        gw = gw.loc[gw["minutes"] > 0]
-        gw['team'] = gw.element.map(players_season.set_index('id').team)
-        gw['opponent_team'] = gw.opponent_team.map(teams_df.set_index('id').name)
-        stats = ast.literal_eval(re.search('({.+})', fixtures_df.stats.values[0]).group(0))[-1]
-        teams = gw.team.unique()
-        match_setups = {}
-        for i, team in enumerate(teams):
-            team1 = gw.loc[gw["team"] == team]
-            opponent_team = team1["opponent_team"].unique()[0]
-            team2 = gw.loc[gw["team"] == opponent_team]
-            teams = np.delete(teams, np.argwhere(teams == opponent_team))
-            match_setups[i] = [team1, team2]
-
-        return match_setups, stats
-
-    # def get_season_data(self, season="2019-20", gw=1):
-    #     """
-    #     Creates input for neural network
-    #     """
-    #     # Get Data frames for the given season
-    #     historic_data_path = self.data_path + season
-    #     teams_df = pd.read_csv(historic_data_path + r"\teams.csv")
-    #
-    #     # # Get fixtures for a given game week
-    #     # fixtures_df = pd.read_csv(historic_data_path + r"\fixtures.csv")
-    #     # fixtures_df['team_h'] = fixtures_df.team_h.map(teams_df.set_index('id').name)
-    #     # fixtures_df['team_a'] = fixtures_df.team_a.map(teams_df.set_index('id').name)
-    #     # fixtures_df = fixtures_df.loc[fixtures_df["event"] == gw]
-    #
-    #     # Get player data for a given season
-    #     players_season = pd.read_csv(historic_data_path + r"\players_raw.csv")
-    #     players_season['team'] = players_season.team.map(teams_df.set_index('id').name)
-    #
-    #     # Get game week stats
-    #     gw_stats = pd.read_csv(historic_data_path + r"\gws\gw" + str(gw) + ".csv")
-    #     gw_stats['first_name'], gw_stats['second_name'] = gw_stats.element.map(players_season.set_index('id').first_name), gw_stats.element.map(
-    #         players_season.set_index('id').second_name)
-    #     gw_stats = gw_stats.loc[gw_stats["minutes"] > 0]
-    #     gw_stats['team'] = gw_stats.element.map(players_season.set_index('id').team)
-    #     gw_stats['opponent_team'] = gw_stats.opponent_team.map(teams_df.set_index('id').name)
-    #
-    #     # Create dict with team match ups and results for the given game week
-    #     teams = gw_stats.team.unique()
-    #     match_setups = {}
-    #     for i in range(int(len(teams)/2)):
-    #
-    #         team1 = gw_stats.loc[gw_stats["team"] == teams[i]]
-    #         opponent_team = team1["opponent_team"].unique()[0]
-    #         team2 = gw_stats.loc[gw_stats["team"] == opponent_team]
-    #
-    #         # Delete the opponent team from list, since it has been matched already
-    #         # stats = ast.literal_eval(re.search('({.+})', fixtures_df.stats.values[i]).group(0))
-    #         match_setups[i] = [team1, team2]
-    #
-    #     return match_setups
-
-    def get_season_data(self, season="2019-20", gw=1):
-        """
-        Creates input for neural network
-        """
-        # Get Data frames for the given season
-        historic_data_path = self.data_path + season
-        teams_df = pd.read_csv(historic_data_path + r"\teams.csv")
-
-        # Get player data for a given season
-        players_season = pd.read_csv(historic_data_path + r"\players_raw.csv")
-        players_season['team'] = players_season.team.map(teams_df.set_index('id').name)
-
-        x, y = [], []
-        player = pd.read_csv(historic_data_path + r"\players\Aaron_Cresswell_376" + "/gw.csv")
-
-        # Get game week stats
-        for player in tqdm(os.listdir(historic_data_path + "/players")):
-            path_to_player = historic_data_path + r"\players\\" + player + r"\gw.csv"
-            player_stats_per_season = pd.read_csv(path_to_player)
-            player_stats_per_season["name"] = player
-            player_stats_per_season = reformat_columns(player_stats_per_season,
-                                                       players_season,
-                                                       self.df_element_types, teams_df)[["name", "position",
-                                                                                         "ict_index",
-                                                                                         "team", "opponent_team",
-                                                                                         "was_home", "total_points"]]
-            for gw in player_stats_per_season.values:
-                x.append(gw[:-1])
-                y.append(gw[-1])
-        print("lol")
-
-
-
-
-
-
-
-    def extract_dataset(self):
-        """
-        Creates dataset for training. 1 batch is one game week.
-        Current setting: Total dataset size is number of game weeks for a given season.
-        """
-        season = "2019-20"
-        # dataset = []
-        # for i in tqdm(range(1, len(os.listdir(self.data_path + season + "/gws")))):
-        #
-        #     dataset.append(self.get_season_data(gw=i))
-        dataset = [self.get_season_data(gw=i) for i in range(1, len(os.listdir(self.data_path + season + "/gws")))]
-        print("")
-        pass
-
-    def setup_model(self):
-        pass
-
-    def validate(self):
-        pass
 
     def simple_AI(self):
         """
@@ -355,10 +208,7 @@ if __name__ == '__main__':
     use_last_season = False
     team_selector_ai = TeamSelectorAI(data, use_last_season)
     # team_selector_ai.knapsack_01()
-    # team_selector_ai.simple_AI()
+    team_selector_ai.simple_AI()
     # team_selector_ai.print_team()
-    team_selector_ai.extract_dataset()
-    team_selector_ai.setup_model()
-    team_selector_ai.train()
-    team_selector_ai.validate()
+
 
