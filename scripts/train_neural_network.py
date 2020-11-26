@@ -63,7 +63,7 @@ class neuralNetwork(pick_team_AI.TeamSelectorAI):
             self.optimizer = keras.optimizers.Adam(lr=self.learning_rate)
 
         # Build model
-        self.model = self.setup_model()
+        self.setup_model()
 
         self.x, self.y = None, None
         self.x_train, self.y_train, self.x_test, self.y_test = None, None, None, None
@@ -210,15 +210,14 @@ class neuralNetwork(pick_team_AI.TeamSelectorAI):
         self.x_train, self.x_test, self.y_train, self.y_test = sklearn.model_selection.train_test_split(x, y,
                                                                                                         test_size=0.01,
                                                                                                         random_state=42)
-
     def train(self):
         """ Train model with training data in a supervised manner """
-        self.model.fit(self.x_train, self.y_train, batch_size=self.batch_size, epochs=self.epochs)
 
+        self.model.fit(self.x_train, self.y_train, batch_size=self.batch_size, epochs=self.epochs)
 
     def setup_model(self):
         """ Setup and compile Neural Net model """
-        return self.model_fcn()
+        self.model = self.model_fcn()
 
     def validate(self, x, y):
         """ Validate network """
