@@ -1,4 +1,3 @@
-import copy
 import pick_team_AI
 import pandas as pd
 import numpy as np
@@ -9,9 +8,9 @@ import os
 import sklearn.model_selection
 from sklearn import preprocessing
 
-
 config = configparser.ConfigParser()
 config.read("config.ini")
+
 
 def reformat_columns(df, player_df, element_types, teams_df):
     """
@@ -36,7 +35,31 @@ def encode_dataset(training_input, test_input):
     return training_input, test_input
 
 
-class neuralNetwork(pick_team_AI.TeamSelectorAI):
+def ordinal_encode_data(data):
+    """ Ordinal encodes data. Does not include names in vector """
+    encoder = preprocessing.OrdinalEncoder()
+    encoder = encoder.fit_transform(data[['opponent_team', 'position', 'team', 'ict_index']])
+    encoder[:, -1] /= 10
+    return np.asarray(encoder)
+
+
+def nominal_encoder(data):
+    """Nominal Encodes data"""
+    encoder = preprocessing.LabelEncoder()
+    labels = encoder.fit_transform(data[['opponent_team', 'position', 'team', 'ict_index']])
+    label_mappings = {index: label for index, label in enumerate(labels.classes_)}
+    return label_mappings
+
+
+def normalize_data(data):
+    """ Normalize data to be between 0 and 1. Really stupid to do with encoding it seems """
+    _min = np.min(data)
+    _max = np.max(data)
+    data = (data - _min) / (_max - _min)
+    return data
+
+
+class NeuralNetwork(pick_team_AI.TeamSelectorAI):
     def __init__(self, data, use_last_season):
         super().__init__(data, use_last_season)
 
@@ -62,9 +85,7 @@ class neuralNetwork(pick_team_AI.TeamSelectorAI):
         elif self.optimizer == 'adam':
             self.optimizer = keras.optimizers.Adam(lr=self.learning_rate)
 
-        # Build model
-        self.setup_model()
-
+        self.model = None
         self.x, self.y = None, None
         self.x_train, self.y_train, self.x_test, self.y_test = None, None, None, None
 
@@ -76,36 +97,35 @@ class neuralNetwork(pick_team_AI.TeamSelectorAI):
         :return:
         """
 
-        model = keras.models.Sequential()
-        model.add(keras.layers.Dense(1024, activation='relu'
-                                     ))
-        model.add(keras.layers.Dense(1024, activation='relu'
-                                     ))
-        # model.add(keras.layers.Dropout(0.1))
+        keras_model = keras.models.Sequential()
+        keras_model.add(keras.layers.Dense(1024, activation='relu'
+                                           ))
+        keras_model.add(keras.layers.Dense(1024, activation='relu'
+                                           ))
 
-        model.add(keras.layers.Dense(512, activation='relu'
-                                     ))
+        keras_model.add(keras.layers.Dense(512, activation='relu'
+                                           ))
 
-        model.add(keras.layers.Dropout(0.1))
-        model.add(keras.layers.Dense(512, activation='relu'
-                                     ))
-        model.add(keras.layers.Dropout(0.1))
+        keras_model.add(keras.layers.Dropout(0.1))
+        keras_model.add(keras.layers.Dense(512, activation='relu'
+                                           ))
+        keras_model.add(keras.layers.Dropout(0.1))
 
-        model.add(keras.layers.Dense(512, activation='relu'
-                                     ))
+        keras_model.add(keras.layers.Dense(512, activation='relu'
+                                           ))
 
-        model.add(keras.layers.Dense(256, activation='relu'
-                                     ))
+        keras_model.add(keras.layers.Dense(256, activation='relu'
+                                           ))
 
-        model.add(keras.layers.Dense(1, activation='relu'))
+        keras_model.add(keras.layers.Dense(1, activation='relu'))
 
-        model.compile(loss=keras.losses.mean_absolute_error,
-                      optimizer=self.optimizer,
-                      metrics=[self.optimizer_metric])
+        keras_model.compile(loss=keras.losses.mean_absolute_error,
+                            optimizer=self.optimizer,
+                            metrics=[self.optimizer_metric])
 
-        return model
+        return keras_model
 
-    def get_data_per_season(self, season="2019-20", gw=1):
+    def get_data_per_season(self, season="2019-20"):
         """
         Creates input for neural network
         """
@@ -164,27 +184,6 @@ class neuralNetwork(pick_team_AI.TeamSelectorAI):
                 self.x = pd.concat((self.x, x_temp))
                 self.y = pd.concat((self.y, y_temp))
 
-    def normalize_data(self, data):
-        """ Normalize data to be between 0 and 1. Really stupid to do with encoding it seems """
-        _min = np.min(data)
-        _max = np.max(data)
-        data = (data - _min) / (_max - _min)
-        return data
-
-    def ordinal_encode_data(self):
-        """ Ordinal encodes data. Does not include names in vector """
-        encoder = preprocessing.OrdinalEncoder()
-        encoder = encoder.fit_transform(self.x[['opponent_team', 'position', 'team', 'ict_index']])
-        encoder[:, -1] /= 10
-        return np.asarray(encoder)
-
-    def nominal_encoder(self):
-
-        encoder = preprocessing.LabelEncoder
-        labels = encoder.fit_transform(self.x[['opponent_team', 'position', 'team', 'ict_index']])
-        label_mappings = {index: label for index, label in enumerate(labels.classes_)}
-        return label_mappings
-
     def preprocess_data(self):
         """
         Preprocessing steps:
@@ -192,13 +191,13 @@ class neuralNetwork(pick_team_AI.TeamSelectorAI):
         2. If Ordinal encoding, normalize data afterwards
         3. Split into training and test sets
         """
-
+        x = []
         if self.encoding == 'ORDINAL_ENCODING':
-            x = self.ordinal_encode_data()
-            x = self.normalize_data(x)
+            x = ordinal_encode_data(self.x)
+            x = normalize_data(x)
 
         elif self.encoding == 'NOMINAL_ENCODING':
-            x = self.nominal_encoder()
+            x = nominal_encoder(self.x)
 
         elif self.encoding == 'ONEHOT_ENCODING':
             x = self.onehot_encode_with_pandas()
@@ -210,6 +209,7 @@ class neuralNetwork(pick_team_AI.TeamSelectorAI):
         self.x_train, self.x_test, self.y_train, self.y_test = sklearn.model_selection.train_test_split(x, y,
                                                                                                         test_size=0.01,
                                                                                                         random_state=42)
+
     def train(self):
         """ Train model with training data in a supervised manner """
 
@@ -229,16 +229,11 @@ class neuralNetwork(pick_team_AI.TeamSelectorAI):
         return data.values
 
 
-
 if __name__ == '__main__':
-
     api_data = pick_team_AI.api_call()
-    model = neuralNetwork(api_data, False)
+    model = NeuralNetwork(api_data, False)
     model.extract_dataset()
     model.setup_model()
     model.preprocess_data()
     model.train()
     # model.validate(x_test, y_test)
-
-
-
