@@ -3,14 +3,17 @@ import copy
 import pandas as pd
 import requests as req
 import datetime
-import numpy as np
 import seaborn as sns
-import re
-import ast
-from tqdm import tqdm
-import keras
+import configparser
+
 import os
-import sklearn.model_selection
+
+
+
+config = configparser.ConfigParser()
+config.read("config.ini")
+
+
 
 def fix_teams_id_list(seasons):
 
@@ -97,18 +100,18 @@ class TeamSelectorAI:
     Budget is set to 1000 since player cost is set a factor of 10 higher than on the
     fantasy webpage. meaning that if a player costs 5.5£ on the home page, it will cost 55 with this dataframe.
     """
-    def __init__(self, data, use_last_season, budget=1000, star_player_limit=3,
+    def __init__(self, data, season, budget=1000, star_player_limit=3,
                  goalkeepers=2, defenders=5,
                  midfielders=5, forwarders=3):
-        self.data_path = r"C:\Users\torstein.gombos\Desktop\FPL\historic_data\Fantasy-Premier-League\data\\"
+        self.data_path = r"C:\Users\torstein.gombos\Desktop\FPL\historic_data\Fantasy-Premier-League\data\\" + season
         self.data = data
-        self.use_last_season = use_last_season
+        self.season = season
         self.budget = budget
         self.star_player_limit = star_player_limit
         self.money_team = pd.DataFrame()
         self.positions = {"Goalkeeper": goalkeepers, "Defender": defenders,
                           "Midfielder": midfielders, "Forward": forwarders}
-        self.df, self.df_team, self.df_element_types = self.create_dataframe(use_last_season)
+        self.df, self.df_team, self.df_element_types = self.create_dataframe(season)
         self.df = map_team_and_position(self.df, self.df_element_types, self.df_team)
         self.injured = player_by_status(self.df)
         self.seasons = os.listdir(self.data_path)
@@ -117,17 +120,19 @@ class TeamSelectorAI:
         """
         Create dataframe from data, either with last season or this season
         """
-        if use_last_season:
-            # Create dataFrames based on data categories
-            df_element_types = pd.DataFrame(self.data["element_types"])
-            df_team = pd.DataFrame(self.data['teams'])
-            # TODO: Test this solution below
-            df = pd.read_csv("../elements/2020-09-01.txt")
-        else:
+        if season == 'API':
             # Create dataFrames based on data categories
             df_element_types = pd.DataFrame(self.data["element_types"])
             df_team = pd.DataFrame(self.data['teams'])
             df = pd.DataFrame(self.data["elements"])
+
+        else:
+            # Create dataFrames based on data categories
+            df_element_types = pd.DataFrame(self.data["element_types"])
+            df_team = pd.DataFrame(self.data['teams'])
+            hey = self.data_path + '/gws/'
+            last_gw = os.listdir(self.data_path + '/gws/')
+            df = pd.read_csv(self.data_path + os.listdir('/gws/')[-2])
         pd.options.display.max_columns = None
         df['value_season'] = df.value_season.astype(float)  # Convert all values to float, in case some are strings
 
@@ -205,10 +210,10 @@ class TeamSelectorAI:
 if __name__ == '__main__':
 
     data = api_call()
-    use_last_season = False
-    team_selector_ai = TeamSelectorAI(data, use_last_season)
-    # team_selector_ai.knapsack_01()
+    season = config['dataset']['SEASON']
+    team_selector_ai = TeamSelectorAI(data, season)
+
     team_selector_ai.simple_AI()
-    # team_selector_ai.print_team()
+    team_selector_ai.print_team()
 
 
