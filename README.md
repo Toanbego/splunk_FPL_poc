@@ -38,7 +38,7 @@ https://towardsdatascience.com/beating-the-fantasy-premier-league-game-with-pyth
 stored in elements and team_suggestion. To add the data in Splunk, create a scripted input in splunk which runs each of these
 scripts. Sourcetype is csv format. 
 
-##Using without Splunk<a name="without-splunk"></a>
+## Using without Splunk<a name="without-splunk"></a>
 In the script fold you will find scripts for API calls and various scripts for testing different optimization
 algorithms. Each script should be able to run separately, though many are work in progress and might not deliver any
 usable results. 
