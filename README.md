@@ -39,12 +39,19 @@ This will create a jsnon and a csv file in the <i>elements</i> and <i>team_sugge
 * The second script uses a simple algorithm to maximise player value given a budget of 100 million bucks.
 https://towardsdatascience.com/beating-the-fantasy-premier-league-game-with-python-and-data-science-cf62961281be
 
-
 ## How to use without Splunk<a name="without-splunk"></a>
 In the scripts folder you will find scripts for API calls and various scripts for testing different optimization
 algorithms.
 Each script should be able to run separately, though many are work in progress and might not deliver any
 usable results. 
+
+### Usefull resources and links
+https://github.com/vaastav/Fantasy-Premier-League
+https://ml.christmas/2019/23
+https://towardsdatascience.com/fantasy-premier-league-value-analysis-python-tutorial-using-the-fpl-api-8031edfe9910
+https://towardsdatascience.com/beating-the-fantasy-premier-league-game-with-python-and-data-science-cf62961281be
+https://medium.com/@kangeugine/fantasy-football-as-a-data-scientist-part-2-knapsack-problem-6b7083955e93
+
  
 
 
