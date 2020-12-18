@@ -18,8 +18,10 @@ The objective of the game is to create the best team possible and earn maximum p
 matches.
 
 ### Preview:
-
-![Drag Racing](https://github.com/Toanbego/splunk_FPL_poc/blob/master/images/FPL_AI.PNG)
+![ROI](https://github.com/Toanbego/splunk_FPL_poc/blob/master/images/FPL_ROI.PNG)
+![Points](https://github.com/Toanbego/splunk_FPL_poc/blob/master/images/FPL_points.PNG)
+![AI](https://github.com/Toanbego/splunk_FPL_poc/blob/master/images/FPL_AI.PNG)
+![Extra](https://github.com/Toanbego/splunk_FPL_poc/blob/master/images/extra_stats.PNG)
 
 
 ## To Use This Repo<a name="use-this-repo"></a>
