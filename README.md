@@ -24,12 +24,12 @@ matches.
 ![Extra](https://github.com/Toanbego/splunk_FPL_poc/blob/master/images/extra_stats.PNG)
 
 
-## To Use This Repo<a name="use-this-repo"></a>
+## How to use this Repo<a name="use-this-repo"></a>
 Copy paste the the FPL folder and its content to your $SPLUNK_HOME/apps/ folder. This will set up the app in splunk automatically. Restart Splunk for the changes to take effect.
 Indexed data is not included in the repo. To start indexing data, see the section below.
 
-### Getting data to your local folder.
-Set up two scripted inputs in Splunk Web (or inputs.conf) which runs <i>get_elements.py</i> and <i>get_current_team.py</i>. They will read the latest content of the <i>elements</i> and <i>team_suggestion</i> folders. To add data to these folders, run the two scripts in the script folder.
+### Indexing data.
+Two scripted inputs (<i>get_elements.py</i> and <i>get_current_team.py</i>) is scheduled to run once a day. They will read and index the latest content of the <i>elements</i> and <i>team_suggestion</i> folders. To add data to these folders, run the two scripts in the script folder. 
 
 <i>Obs* Splunk's python env might not have the proper setup to run pick_AI_team.py. My workaround is to schedule the scripts to run with my local python env, using the .bat file in the apps bin folder. </i>
 
