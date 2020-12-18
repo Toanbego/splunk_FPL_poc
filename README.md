@@ -25,29 +25,25 @@ matches.
 
 
 ## To Use This Repo<a name="use-this-repo"></a>
-This repo is built like the bin folder for a Splunk app. To use this in Splunk, create an App in your
-Splunk instance, then clone this repo to the $SPLUNK_HOME/etc/app/bin folder. 
-* The conf folder contains inputs and look up tables. The have to be
-extracted to the necessary locations manually.
-* The dashboards folder contains the xml files for the dashboard. Either extract the file
-to the correct ui folder, or simply click create a new dashboard in Splunk, and copy
-paste the content.
+Copy paste the the FPL folder and its content to your $SPLUNK_HOME/apps/ folder. This will set up the app in splunk automatically. Restart Splunk for the changes to take effect.
+Indexed data is not included in the repo. To start indexing data, see the section below.
 
 ### Getting data to your local folder.
+Set up two scripted inputs in Splunk Web (or inputs.conf) which runs <i>get_elements.py</i> and <i>get_current_team.py</i>. They will read the latest content of the <i>elements</i> and <i>team_suggestion</i> folders. To add data to these folders, run the two scripts in the script folder.
+
+<i>Obs* Splunk's python env might not have the proper setup to run pick_AI_team.py. My workaround is to schedule the scripts to run with my local python env, using the .bat file in the apps bin folder. </i>
+
 The <i>run_locally_at_interval.BAT</i> runs the scripts <i>get_elements.py</i> and <i>get_current_team.py</i>.
-This will create csv files in the <i>elements</i> and <i>team_suggestion</i> folders.
+This will create a jsnon and a csv file in the <i>elements</i> and <i>team_suggestion</i> folders.
 * The first script stores statistical data about each player as of latest update
 * The second script uses a simple algorithm to maximise player value given a budget of 100 million bucks.
 https://towardsdatascience.com/beating-the-fantasy-premier-league-game-with-python-and-data-science-cf62961281be
 
-### Getting data into Splunk<a name="description"></a> 
-<i>read_data_to_splunk.py</i> and <i>read_team_suggestion.py</i> will read and print data from the latest txt file
-stored in elements and team_suggestion. To add the data in Splunk, create a scripted input in splunk which runs each of these
-scripts. Sourcetype is csv format. 
 
 ## How to use without Splunk<a name="without-splunk"></a>
-In the script fold you will find scripts for API calls and various scripts for testing different optimization
-algorithms. Each script should be able to run separately, though many are work in progress and might not deliver any
+In the scripts folder you will find scripts for API calls and various scripts for testing different optimization
+algorithms.
+Each script should be able to run separately, though many are work in progress and might not deliver any
 usable results. 
  
 
