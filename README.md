@@ -9,13 +9,18 @@ This is a project to extract Fantasy Premier Leauge data, using their official A
 The idea is to generate insight in how to best optimize your Fantasy team to get the most points for your buck. 
 The project also looks into some optimization algorithms, like ML, Evolutionary Programming, Knapsack and etc.
 
-## FPL<a name="fpl"></a>
+### FPL<a name="fpl"></a>
 The Fantasy Premier League, or the FPL, is an online game which is played at http://www.premierleague.com
 
 You are given a budget of 100 million(fake money, obviously), to buy a squad of 15 players consisting of 2 goalkeepers, 5 defenders, 5 midfielders and 3 forwards with the added rule of being able to select a maximum of 3 players from any particular Barclays Premier League team. The cost of a player is pre-determined by the game developers, based on the player's popularity and performance in the last football season.
 
 The objective of the game is to create the best team possible and earn maximum points based on their performance in real 
 matches.
+
+### Preview:
+
+![Drag Racing](Dragster.jpg)
+
 
 ## To Use This Repo<a name="use-this-repo"></a>
 This repo is built like the bin folder for a Splunk app. To use this in Splunk, create an App in your
