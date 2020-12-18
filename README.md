@@ -19,7 +19,7 @@ matches.
 
 ### Preview:
 
-![Drag Racing](Dragster.jpg)
+![Drag Racing](https://github.com/Toanbego/splunk_FPL_poc/blob/master/images/FPL_AI.PNG)
 
 
 ## To Use This Repo<a name="use-this-repo"></a>
