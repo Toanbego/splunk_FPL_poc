@@ -1,10 +1,9 @@
-# # !/usr/bin/python
-# import exec_anaconda
-# exec_anaconda.exec_anaconda()
+#! /usr/bin/env python
+import exec_anaconda
+exec_anaconda.exec_anaconda()
 import pandas as pd
 import requests as req
 import datetime
-
 
 
 def api_call(url=r"https://fantasy.premierleague.com/api/bootstrap-static/"):
@@ -138,14 +137,6 @@ class TeamSelectorAI:
             description = "previous_season"
         else:
             description = datetime.date.today()
-        try:
-            self.money_team[["first_name", "second_name",
-                             'position', "Star", "team",
-                             "now_cost", "total_points",
-                             'value_season']].to_csv(f"C:/Splunk/etc/apps/FPL/bin/team_suggestion/suggested_team {description}.txt")
-        except FileNotFoundError:
-            print("file not found - splunk")
-            pass
 
         try:
             self.money_team[["first_name", "second_name",
@@ -164,5 +155,6 @@ def main():
     team_selector_ai.simple_AI()
     team_selector_ai.print_team()
     team_selector_ai.save_data_to_csv()
+
 
 main()

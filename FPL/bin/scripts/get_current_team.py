@@ -7,29 +7,34 @@ The idea is that a dashboard in Splunk should take team ID as input and return t
 Dashboard. Further development could include "best transfer this week" or "Likely captain" options.
 """
 
-import aiohttp
-import asyncio
+
+import json
+import os
+
+import pandas as pd
 import requests as req
-from fpl import FPL, fpl
-
-
-async def my_team(user_id):
-    async with aiohttp.ClientSession() as session:
-        fpl = FPL(session)
-        await fpl.login()
-        user = await fpl.get_user(user_id)
-        team = await user.get_team()
-    await print(team)
+from fpl import FPL
+sessionId = ".eJyrVopPLC3JiC8tTi2Kz0xRslIyNbQwMzExM1PSQZZKSkzOTs0DyRfkpBXk6IFk9AJ8QoFyxcHB_o5ALqqGjMTiDKBqMzNTE8tU81Qjc8NUU2OjNMtEizSTNKM0gzSD1NSUZINUixRjc7OUJKVaAIFpLOk:1kppnq:A3KJR_5xxRvqPIeIQvFvOYtxqiI"
+fpl = FPL(sessionId)
+# print(fpl.get_team(12))
+hey = fpl.get_user(3631718, True)
+for something in hey:
+    print(hey)
+exit()
 
 def api_call(url=r"https://fantasy.premierleague.com/api/bootstrap-static/"):
+    """Performs API call"""
     return req.get(url).json()
 
 
-async def main():
-    """
-    Main function used for testing
-    """
-    data = api_call()
-    await my_team(3631718)
 
-main()
+if __name__ == '__main__':
+    # Get data
+    # Get data
+    API_BASE_URL = "https://fantasy.premierleague.com/api/"
+    url = "{}my-team/3631718".format(API_BASE_URL)
+    print(url)
+    # exit()
+    data = api_call(url)
+    # df = data["elements"]
+    print(data)

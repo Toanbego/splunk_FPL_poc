@@ -46,7 +46,7 @@ class neuralNetwork(pick_team_AI.TeamSelectorAI):
                          "ict_index",
                          "team", "opponent_team",
                          "was_home", "total_points"]
-        self.dummy_set_size = config['dataset'].getint('DUMMY_SET_SIZE')
+        self.dummy_set_size = config['dataset'].getint('DUMMY_SET_SIZE') # Size of sampled dataset. Used mostly to debug preprocessing steps. 
         self.seasons = self.seasons[:config['dataset'].getint('NUMBER_OF_SEASONS')]
 
         # ML related attributes
@@ -131,6 +131,7 @@ class neuralNetwork(pick_team_AI.TeamSelectorAI):
             player_stats_per_season = reformat_columns(player_stats_per_season,
                                                        players_season,
                                                        self.df_element_types, teams_df)[self.features]
+
             # Create array in the beginning, or add new data to existing array
             if i == 0:
                 x = player_stats_per_season[self.features[:-1]]
@@ -205,6 +206,9 @@ class neuralNetwork(pick_team_AI.TeamSelectorAI):
             x[:, 0] = self.normalize_data(x[:, 0])
             x = np.asarray(x).astype('float')
         y = self.y.values
+
+        # TODO: Some data cleaning should be necessary. Like removing players from previous season which are currently
+        # not plaing anymore. Or not adding players which have less than 10 games this season (apart from the top 20 highest scored for instance)
 
         # Split dataset into training and validation set
         self.x_train, self.x_test, self.y_train, self.y_test = sklearn.model_selection.train_test_split(x, y,

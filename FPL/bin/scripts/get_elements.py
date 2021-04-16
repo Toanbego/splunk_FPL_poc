@@ -22,6 +22,9 @@ import requests as req
 import sys
 import datetime
 
+SPLUNK_HOME = os.getcwd()+"\.."
+APP_HOME = f"{SPLUNK_HOME}/etc/apps/FPL"
+
 
 def api_call(url=r"https://fantasy.premierleague.com/api/bootstrap-static/"):
     """Performs API call"""
@@ -101,16 +104,11 @@ def suggest_team(dt):
 
 
 def save_data_to_json(json_data):
+    
     unpacked_data = json.dumps(json_data["elements"])
+    print(unpacked_data)
     try:
-        f = open(f"C:/Program Files/Splunk/etc/apps/Fantasy_PL/bin/data/elements/{datetime.date.today()}.txt", "w")
-        f.write(f"{unpacked_data}")
-        f.close()
-    except FileNotFoundError:
-        print("file not found - splunk")
-        pass
-    try:
-        f = open(f"../elements/{datetime.date.today()}.txt", "w")
+        f = open(f"{APP_HOME}/bin/elements/{datetime.date.today()}.txt", "w")
         f.write(f"{unpacked_data}")
         f.close()
     except FileNotFoundError:
@@ -119,10 +117,8 @@ def save_data_to_json(json_data):
 
 
 if __name__ == '__main__':
-
     # Get data
     data = api_call()
-    print(data["elements"])
     # Write data to file
     save_data_to_json(data)
 
