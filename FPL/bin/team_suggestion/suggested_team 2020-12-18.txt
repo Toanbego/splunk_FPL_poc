@@ -1,0 +1,16 @@
+,first_name,second_name,position,Star,team,now_cost,total_points,value_season
+496,Heung-Min,Son,Midfielder,Yes,Spurs,96.0,114.0,11.9
+494,Harry,Kane,Forward,Yes,Spurs,109.0,109.0,10.0
+318,Mohamed,Salah,Midfielder,Yes,Liverpool,124.0,102.0,8.2
+284,Patrick,Bamford,Forward,No,Leeds,63.0,81.0,12.9
+33,Emiliano,Martínez,Goalkeeper,No,Aston Villa,48.0,61.0,12.7
+470,Jannik,Vestergaard,Defender,No,Southampton,49.0,61.0,12.4
+132,Kurt,Zouma,Defender,No,Chelsea,57.0,70.0,12.3
+112,Nick,Pope,Goalkeeper,No,Burnley,54.0,64.0,11.9
+476,Jan,Bednarek,Defender,No,Southampton,46.0,54.0,11.7
+198,Dominic,Calvert-Lewin,Forward,No,Everton,79.0,88.0,11.1
+596,Pedro,Lomba Neto,Midfielder,No,Wolves,58.0,64.0,11.0
+47,Tyrone,Mings,Defender,No,Aston Villa,53.0,58.0,10.9
+557,Aaron,Cresswell,Defender,No,West Ham,52.0,55.0,10.6
+471,James,Ward-Prowse,Midfielder,No,Southampton,63.0,66.0,10.5
+465,Oriol,Romeu Vidal,Midfielder,No,Southampton,45.0,38.0,8.4
