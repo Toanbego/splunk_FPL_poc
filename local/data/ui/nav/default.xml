@@ -1,0 +1,13 @@
+<nav>
+<view name="home" default='true' />
+<collection label="Conf">
+
+<collection label="Tools">
+  <view name="search" />
+  <view name="search_guide" />
+  <view name="datasets" />
+  <view name="reports" />
+  <view name="alerts" />
+  <view name="dashboards" />
+</collection>
+</nav>
