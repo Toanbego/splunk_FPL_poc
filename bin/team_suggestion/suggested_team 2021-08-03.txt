@@ -1,0 +1,15 @@
+,first_name,second_name,position,Star,team,now_cost,total_points,value_season
+297,Bruno Miguel,Borges Fernandes,Midfielder,Yes,Man Utd,120.0,244.0,20.3
+388,Harry,Kane,Forward,Yes,Spurs,125.0,242.0,19.4
+253,Mohamed,Salah,Midfielder,Yes,Liverpool,125.0,231.0,18.5
+32,Emiliano,Martínez,Goalkeeper,No,Aston Villa,55.0,186.0,33.8
+226,Stuart,Dallas,Midfielder,No,Leeds,55.0,171.0,31.1
+237,Illan,Meslier,Goalkeeper,No,Leeds,50.0,154.0,30.8
+450,Aaron,Cresswell,Defender,No,West Ham,55.0,153.0,27.8
+41,Matt,Targett,Defender,No,Aston Villa,50.0,138.0,27.6
+238,Jack,Harrison,Midfielder,No,Leeds,60.0,160.0,26.7
+308,Aaron,Wan-Bissaka,Defender,No,Man Utd,55.0,144.0,26.2
+85,Lewis,Dunk,Defender,No,Brighton,50.0,130.0,26.0
+457,Vladimir,Coufal,Defender,No,West Ham,50.0,128.0,25.6
+461,Tomas,Soucek,Midfielder,No,West Ham,60.0,147.0,24.5
+227,Patrick,Bamford,Forward,No,Leeds,80.0,194.0,24.2

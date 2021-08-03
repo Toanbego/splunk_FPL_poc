@@ -1,0 +1,14 @@
+,first_name,second_name,position,Star,team,now_cost,total_points,value_season
+286,Kevin,De Bruyne,Midfielder,Yes,Man City,115.0,251.0,21.8
+268,Mohamed,Salah,Midfielder,Yes,Liverpool,120.8,233.0,19.4
+265,Sadio,Mané,Midfielder,Yes,Liverpool,120.8,221.0,18.4
+99,Nick,Pope,Goalkeeper,No,Burnley,55.6,170.0,30.9
+72,Mathew,Ryan,Goalkeeper,No,Brighton,45.5,135.0,30.0
+273,Trent,Alexander-Arnold,Defender,No,Liverpool,75.89999999999998,210.0,28.0
+429,Matt,Doherty,Defender,No,Spurs,60.89999999999999,167.0,27.8
+264,Virgil,van Dijk,Defender,No,Liverpool,65.3,178.0,27.4
+373,John,Egan,Defender,No,Sheffield Utd,50.99999999999999,133.0,26.6
+375,John,Lundstram,Midfielder,No,Sheffield Utd,55.3,144.0,26.2
+84,James,Tarkowski,Defender,No,Burnley,55.89999999999999,143.0,26.0
+388,Danny,Ings,Forward,No,Southampton,85.39999999999998,198.0,23.3
+486,Raúl,Jiménez,Forward,No,Wolves,86.29999999999998,194.0,22.8
